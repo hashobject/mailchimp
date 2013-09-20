@@ -2,6 +2,7 @@
 
 A Clojure library for interaction with [MailChimp REST API 2.0](http://apidocs.mailchimp.com/api/2.0/).
 
+[![Dependencies Status](http://jarkeeper.com/hashobject/mailchimp/status.png)](http://jarkeeper.com/hashobject/mailchimp)
 
 ## Contributions
 

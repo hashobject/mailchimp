@@ -4,9 +4,11 @@
             [cheshire.core :as json]))
 
 
+(defn- split-datacenter [api-key]
+  (second (re-find #"[0-9a-zA-Z]+-([0-9a-zA-Z]+)" api-key)))
+
 (defn make-url [datacenter route]
   (str "https://" datacenter ".api.mailchimp.com/2.0/" route))
-
 
 (defn post-request
   "Make a generic POST HTTP request"
@@ -28,14 +30,18 @@
              (get-in exception-info [:object :body]))))
              (vector :status :message :code))))))
 
+(defn call [api-key method data]
+  (let [datacenter (split-datacenter api-key)]
+    (post-request datacenter method (assoc data :apikey api-key))))
 
-(defn lists->subscribe [api-key datacenter data]
+(defn lists->subscribe [api-key data]
   "Documentation for the 'data' paramerer located on
   http://apidocs.mailchimp.com/api/2.0/lists/subscribe.php"
-  (post-request datacenter "lists/subscribe" (assoc data :apikey api-key)))
+  (call api-key "lists/subscribe" data))
 
 
-(defn lists->unsubscribe [api-key datacenter data]
+(defn lists->unsubscribe [api-key data]
   "Documentation for the 'data' paramerer located on
   http://apidocs.mailchimp.com/api/2.0/lists/unsubscribe.php"
-  (post-request datacenter "lists/unsubscribe" (assoc data :apikey api-key)))
+  (call api-key "lists/unsubscribe" data))
+

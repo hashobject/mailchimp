@@ -20,15 +20,12 @@
                 {:accept :json
                  :content-type :json
                  :body json})
-          output (json/parse-string (:body resp))]
+          output (json/parse-string (:body resp) true)]
       output)
   (catch Exception e
      (let [exception-info (.getData e)]
-     (select-keys
-       (into {} (map (fn [[k v]] [(keyword k) v])
          (json/parse-string
-             (get-in exception-info [:object :body]))))
-             (vector :status :message :code))))))
+             (get-in exception-info [:object :body]) true)))))
 
 (defn call [api-key method data]
   (let [datacenter (split-datacenter api-key)]

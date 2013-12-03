@@ -4,10 +4,14 @@
             [cheshire.core :as json]))
 
 
-(defn- split-datacenter [api-key]
+(defn- split-datacenter
+  "Get datacenter code from API key"
+  [api-key]
   (second (re-find #"[0-9a-zA-Z]+-([0-9a-zA-Z]+)" api-key)))
 
-(defn make-url [datacenter route]
+(defn- make-url
+  "Make API base URL"
+  [datacenter route]
   (str "https://" datacenter ".api.mailchimp.com/2.0/" route))
 
 (defn post-request
@@ -31,13 +35,17 @@
   (let [datacenter (split-datacenter api-key)]
     (post-request datacenter method (assoc data :apikey api-key))))
 
-(defn lists->subscribe [api-key data]
+(defn lists->subscribe
+  "Subscribe to the list"
+  [api-key data]
   "Documentation for the 'data' paramerer located on
   http://apidocs.mailchimp.com/api/2.0/lists/subscribe.php"
   (call api-key "lists/subscribe" data))
 
 
-(defn lists->unsubscribe [api-key data]
+(defn lists->unsubscribe
+  "Unsubscribe from the list"
+  [api-key data]
   "Documentation for the 'data' paramerer located on
   http://apidocs.mailchimp.com/api/2.0/lists/unsubscribe.php"
   (call api-key "lists/unsubscribe" data))

@@ -1,4 +1,4 @@
-(defproject mailchimp "0.1.0-SNAPSHOT"
+(defproject mailchimp "0.2.0"
   :description "Clojure wrapper for MailChimp API 2.0"
   :signing {:gpg-key "Hashobject Ltd <team@hashobject.com>"}
   :url "https://github.com/hashobject/mailchimp"
